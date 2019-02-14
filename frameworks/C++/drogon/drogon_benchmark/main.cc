@@ -7,6 +7,13 @@ int main() {
     drogon::app().addListener("0.0.0.0", 8080);
     drogon::app().setThreadNum(std::thread::hardware_concurrency());
     //app().enableRunAsDaemon();
+    drogon::app().createDbClient("postgresql",
+                                 "tfb-database",
+                                 5432,
+                                 "hello_world",
+                                 "benchmarkdbuser",
+                                 "benchmarkdbpass",
+                                 800);
     drogon::app().run();
     return 0;
 }
