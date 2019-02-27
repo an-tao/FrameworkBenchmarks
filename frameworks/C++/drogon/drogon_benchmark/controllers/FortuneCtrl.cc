@@ -8,18 +8,24 @@ void FortuneCtrl::asyncHandleHttpRequest(const HttpRequestPtr &req, const std::f
     auto client = drogon::app().getFastDbClient();
     drogon::orm::Mapper<Fortune> mapper(client);
     mapper.findAll([callback](std::vector<Fortune> rows) {
-         std::sort(rows.begin(),rows.end(), [](const Fortune &f1, const Fortune &f2) -> bool {
-                                                               if (f1.getValueOfMessage() < f2.getValueOfMessage())
-                                                                   return true;
-                                                               else
-                                                               {
-                                                                   return false;
-                                                               }
-                                                           }); 
-                                                           HttpViewData data;
-                                                           data.insert("rows",std::move(rows));
-                                                           auto resp=HttpResponse::newHttpViewResponse("fortune.csp",data);
-                                                           callback(resp); },
+                        Fortune newRow;
+                        newRow.setId(0);
+                        newRow.setMessage("Additional fortune added at request time.");
+                        rows.emplace_back(std::move(newRow));
+                        std::sort(rows.begin(),
+                                  rows.end(),
+                                  [](const Fortune &f1, const Fortune &f2) -> bool {
+                                      if (f1.getValueOfMessage() < f2.getValueOfMessage())
+                                          return true;
+                                      else
+                                      {
+                                          return false;
+                                      }
+                                  });
+                        HttpViewData data;
+                        data.insert("rows",std::move(rows));
+                        auto resp=HttpResponse::newHttpViewResponse("fortune.csp",data);
+                        callback(resp); },
                    [callback](const DrogonDbException &err) {
                        auto resp = HttpResponse::newHttpResponse();
                        resp->setBody(std::string("error:") + err.base().what());

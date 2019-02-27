@@ -133,6 +133,13 @@
         "http_methods": [
           "get"
         ]
+      },
+      {
+        "path": "/queries",
+        "controller": "QueriesCtrl",
+        "http_methods": [
+          "get"
+        ]
       }
     ],
     //idle_connection_timeout: defaults to 60 seconds, the lifetime 

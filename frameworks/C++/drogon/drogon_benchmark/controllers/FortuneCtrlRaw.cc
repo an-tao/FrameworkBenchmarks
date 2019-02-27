@@ -14,13 +14,14 @@ void FortuneCtrlRaw::asyncHandleHttpRequest(const HttpRequestPtr &req, const std
             {
                 rows.emplace_back(row["id"].as<int>(), row["message"].as<std::string>());
             }
+            rows.emplace_back(0, "Additional fortune added at request time.");
             std::sort(rows.begin(), rows.end(), [](const std::pair<int, std::string> &p1, const std::pair<int, std::string> &p2) -> bool {
                 if (p1.second < p2.second)
                     return true;
                 return false;
             });
             HttpViewData data;
-            data.insert("rows", rows);
+            data.insert("rows", std::move(rows));
             auto resp = HttpResponse::newHttpViewResponse("fortune_raw.csp", data);
             callback(resp);
         } >>
