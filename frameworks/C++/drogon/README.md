@@ -8,6 +8,8 @@ This is the [Drogon](https://github.com/an-tao/drogon) portion of a [benchmarkin
 * [PLAINTEXT](drogon_benchmark/controllers/PlaintextCtrl.cc)
 * [Single Database Query](drogon_benchmark/controllers/DbCtrl.cc)
 * [Single Database Query Without ORM](drogon_benchmark/controllers/DbCtrlRaw.cc)
+* [Fortune ORM](drogon_benchmark/controllers/FortuneCtrl.cc)
+* [Fortune Without ORM](drogon_benchmark/controllers/FortuneCtrlRaw.cc)
 
 ## Test URLs
 ### JSON
